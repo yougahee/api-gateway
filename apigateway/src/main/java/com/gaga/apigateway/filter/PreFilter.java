@@ -53,6 +53,10 @@ public class PreFilter extends ZuulFilter {
             ctx.getResponse().setContentType("application/json;charset=UTF-8");
             ctx.setResponseBody(message);
         }
+        else {
+            String email = decodeTokenToEmail(authorizationHeader);
+            ctx.addZuulRequestHeader("x-forward-email", email);
+        }
         return null;
     }
 
@@ -71,5 +75,9 @@ public class PreFilter extends ZuulFilter {
             return "이 토큰이 맞아요?";
         }
         return null;
+    }
+
+    public String decodeTokenToEmail(String token) {
+        return JWT.decode(token).getSubject();
     }
 }
