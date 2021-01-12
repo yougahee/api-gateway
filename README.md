@@ -1,5 +1,7 @@
 # :feet: API GATEWAY
 
+</br>
+
 ## :pushpin: API Gateway란? 
 Microservice Architecture에서 언급되며 모든 클라이언트의 요청의 End Point를 통합하는 서버이다. 
 
@@ -12,14 +14,18 @@ API Gateway에서는 보통 권한, 모니터링, 로드밸런싱 등의 역할�
 </br>
 </br>
 
-## API Gateway 오픈소스
+## :pushpin: API Gateway 오픈소스
 1. Netflix의 Zuul
 2. Kong
 3. API Umbrella
 4. tyk.io
 
 
-## 선택한 오픈소스
+</br>
+</br>
+</br>
+
+## :pushpin: 선택한 오픈소스
 - Netfilx의 zuul
 
 <img src = https://camo.githubusercontent.com/11d70535a8f8d18b5450bbeb37330880abd20d2e359ea839796023c7398245a1/68747470733a2f2f692e696d6775722e636f6d2f6d52536f7345702e706e67>
@@ -27,14 +33,17 @@ API Gateway에서는 보통 권한, 모니터링, 로드밸런싱 등의 역할�
 </br>
 
 
-## 선택한 이유
+## :pushpin: 선택한 이유
 1. JAVA 언어로 되어있다.
 2. API Gateway에서 많은 기능을 처리하지 않을 것이었기 때문에 간단하고 사용하기 편한 것을 선택했다.
 3. Netflix가 만들었다는 신뢰감
 4. 어떻게 구성되어있는지 찾아봤을 때 이해하기도 쉬웠고 PreFilter를 사용해서 간단하게 구현할 수 있을 것 같았다.
 
 
-## 기능 구현
+</br>
+</br>
+
+## :pushpin: 기능 구현
 1. Zuul Filter의 Pre Filter를 사용하여 token이 들어오면 만료, 변조 여부 파악
 2. token을 email로 바꿔서 header에 포함하여 보냄 	
 	- 이유 : 유저의 정보를 알기 위해 token을 요청하는데, 이 정보를 사용하는 서비스는 항상 token을 까서 유저의 정보를 찾아야한다. 이 과정에서 동일한 코드를 사용하는 일을 줄이기 위해
@@ -42,7 +51,11 @@ API Gateway에서는 보통 권한, 모니터링, 로드밸런싱 등의 역할�
 
 3. Zuul이 가지고 있는 로드 밸런싱, 데이터 통계 등 여러기능은 추가하지 않았다.
 
-## Netflix - zuul
+</br>
+</br>
+</br>
+
+## :pushpin: Netflix - zuul
 <img src =https://blog.kakaocdn.net/dn/cBrBfn/btqBlz6XzgX/C4DRCKBGRtuccpXCSov2r0/img.png>
 
 1. Pre Filter
@@ -57,9 +70,10 @@ API Gateway에서는 보통 권한, 모니터링, 로드밸런싱 등의 역할�
 4. Error Filter
 - 에러를 처리하는 Filter
 
+</br></br>
 </br>
 
-# dependencies
+# :pushpin: dependencies
 ```
 dependencies {
 	implementation 'org.springframework boot:spring-boot-starter-web'
