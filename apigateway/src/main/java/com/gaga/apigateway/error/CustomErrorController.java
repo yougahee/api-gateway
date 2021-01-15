@@ -2,6 +2,7 @@ package com.gaga.apigateway.error;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,11 @@ import java.util.Map;
 @RestController
 public class CustomErrorController implements ErrorController {
     private static final String ERROR_PATH = "/error";
+
+    @GetMapping("/")
+    public String getState() {
+        return "API Gateway IS RUNNING";
+    }
 
     @Override
     public String getErrorPath() {
