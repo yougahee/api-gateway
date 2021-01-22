@@ -35,4 +35,8 @@ public class JWTUtils {
     public String decodeTokenToEmail(String token) {
         return JWT.decode(token).getSubject();
     }
+
+    public String decodeTokenToNickName(String token) {
+        return JWT.decode(token).getClaim("nickname").toString();
+    }
 }

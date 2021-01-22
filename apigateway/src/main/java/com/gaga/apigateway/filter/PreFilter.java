@@ -48,7 +48,9 @@ public class PreFilter extends ZuulFilter {
             ctx.setResponseBody(message);
         } else {
             String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
+            String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
             ctx.addZuulRequestHeader("x-forward-email", email);
+            ctx.addZuulRequestHeader("x-forward-nickname", nickname);
         }
 
         return null;
