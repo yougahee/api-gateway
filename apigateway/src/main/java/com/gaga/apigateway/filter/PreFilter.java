@@ -4,12 +4,18 @@ import com.gaga.apigateway.utils.JWTUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 public class PreFilter extends ZuulFilter {
+    @Autowired
+    JWTUtils jwtUtils;
+
+    public PreFilter() {
+    }
 
     @Override
     public String filterType() {
@@ -32,7 +38,7 @@ public class PreFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         String authorizationHeader = request.getHeader("token");
-        JWTUtils jwtUtils = new JWTUtils();
+        //JWTUtils jwtUtils = new JWTUtils();
 
         if(authorizationHeader == null) return null;
 

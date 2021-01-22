@@ -14,7 +14,7 @@ API Gateway에서는 보통 권한, 모니터링, 로드밸런싱 등의 역할�
 </br>
 </br>
 
-## :pushpin: API Gateway 오픈소스
+## :pushpin: API Gateway 오픈소스 종류
 1. Netflix의 Zuul
 2. Kong
 3. API Umbrella
