@@ -1,5 +1,6 @@
 package com.gaga.apigateway.filter;
 
+import com.gaga.apigateway.dto.UserDTO;
 import com.gaga.apigateway.utils.JWTUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,10 +49,11 @@ public class PreFilter extends ZuulFilter {
         if(authorizationHeader == null) return null;
 
         if(jwtUtils.checkToken(authorizationHeader)) {
-            String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
-            String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
-            ctx.addZuulRequestHeader("x-forward-email", email);
-            ctx.addZuulRequestHeader("x-forward-nickname", nickname);
+
+            UserDTO userDTO = jwtUtils.decodeJWT(authorizationHeader);
+            ctx.addZuulRequestHeader("x-forward-email", userDTO.getEmail());
+            ctx.addZuulRequestHeader("x-forward-nickname", userDTO.getNickname());
+            ctx.addZuulRequestHeader("x-forward-userIdx", userDTO.getUserIdx());
         } else {
             JsonObject response = new JsonObject();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

@@ -23,7 +23,7 @@ public class TokenController extends ZuulController {
 
 	@GetMapping("/check/token")
 	public ResponseEntity<Void> checkToken(@RequestHeader(value = "token") String token) {
-		log.info("token 유효성 파악");
+		log.info("token 유효성 파악여부");
 
 		jwtUtils.validateToken(token);
 

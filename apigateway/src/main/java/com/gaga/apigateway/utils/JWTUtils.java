@@ -5,15 +5,15 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.gaga.apigateway.dto.UserDTO;
 import com.gaga.apigateway.exception.NotTokenException;
 import com.gaga.apigateway.exception.SignatureVerificationException;
-import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Base64;
 
 @Slf4j
 @Component
@@ -23,6 +23,9 @@ public class JWTUtils {
     private String KEY;
 
     JWTVerifier jwtVerifier;
+
+    private final String CLAIM_NICKNAME = "nickname";
+    private final String USER_IDX = "user_idx";
 
     @PostConstruct
     protected void init(){
@@ -57,6 +60,15 @@ public class JWTUtils {
             log.error(e.getMessage());
             throw new NotTokenException("이 토큰이 맞아요?");
         }
+    }
+
+    public UserDTO decodeJWT(String token) {
+        UserDTO userDTO = new UserDTO();
+        DecodedJWT jwt = JWT.decode(token);
+        userDTO.setEmail(jwt.getSubject());
+        userDTO.setNickname(jwt.getClaim(CLAIM_NICKNAME).asString());
+        userDTO.setUserIdx(jwt.getClaim(USER_IDX).asString());
+        return userDTO;
     }
 
     public String decodeTokenToEmail(String token) {
