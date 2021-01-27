@@ -47,22 +47,24 @@ public class PreFilter extends ZuulFilter {
         String authorizationHeader = request.getHeader("token");
 
         if(authorizationHeader == null) return null;
-
-        jwtUtils.validateToken(authorizationHeader);
-
-        String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
-        String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
-        ctx.addZuulRequestHeader("x-forward-email", email);
-        ctx.addZuulRequestHeader("x-forward-nickname", nickname);
-
-        /*if(message != null) {
-            ctx.setSendZuulResponse(false);
-        } else {
+        if(jwtUtils.checkToken(authorizationHeader)) {
             String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
             String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
             ctx.addZuulRequestHeader("x-forward-email", email);
             ctx.addZuulRequestHeader("x-forward-nickname", nickname);
-        }*/
+        } else {
+            JsonObject response = new JsonObject();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            response.addProperty("timestamp", LocalDateTime.now().format(formatter));
+            response.addProperty("status", 400);
+            response.addProperty("message", "token Error");
+            response.addProperty("path", request.getRequestURI());
+
+            ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            ctx.setResponseBody(response.toString());
+        }
 
         return null;
     }

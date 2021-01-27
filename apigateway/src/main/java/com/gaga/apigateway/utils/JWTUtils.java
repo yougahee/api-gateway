@@ -11,17 +11,33 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Slf4j
 @Component
 public class JWTUtils {
 
     @Value("${jwt.secret.at}")
     private String KEY;
+    JWTVerifier jwtVerifier;
+
+    @PostConstruct
+    protected void init(){
+        jwtVerifier = JWT.require(Algorithm.HMAC256(KEY)).build();
+    }
+
+    public boolean checkToken(String tokenHeader) {
+        try {
+            jwtVerifier.verify(tokenHeader);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 
     public void validateToken(String tokenHeader) {
         log.info("token header : " + tokenHeader);
         try {
-            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(KEY)).build();
             jwtVerifier.verify(tokenHeader);
             log.info("Token validate");
         } catch (TokenExpiredException te) {
