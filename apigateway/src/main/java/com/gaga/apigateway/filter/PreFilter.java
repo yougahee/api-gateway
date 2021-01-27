@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 public class PreFilter extends ZuulFilter {
 
     private static final Gson gson = new GsonBuilder().create();
-    
+
     @Autowired
     JWTUtils jwtUtils;
 
