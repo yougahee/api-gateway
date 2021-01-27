@@ -7,11 +7,13 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.gaga.apigateway.exception.NotTokenException;
 import com.gaga.apigateway.exception.SignatureVerificationException;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Base64;
 
 @Slf4j
 @Component
@@ -19,11 +21,13 @@ public class JWTUtils {
 
     @Value("${jwt.secret.at}")
     private String KEY;
+
     JWTVerifier jwtVerifier;
 
     @PostConstruct
     protected void init(){
         jwtVerifier = JWT.require(Algorithm.HMAC256(KEY)).build();
+        //KEY = Base64.getEncoder().encodeToString(KEY.getBytes());
     }
 
     public boolean checkToken(String tokenHeader) {

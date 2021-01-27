@@ -36,6 +36,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	//jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
 	implementation 'com.auth0:java-jwt:3.4.0'
 
 	//gson

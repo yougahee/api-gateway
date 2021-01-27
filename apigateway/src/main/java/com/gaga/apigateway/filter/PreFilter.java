@@ -45,8 +45,8 @@ public class PreFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         String authorizationHeader = request.getHeader("token");
-
         if(authorizationHeader == null) return null;
+
         if(jwtUtils.checkToken(authorizationHeader)) {
             String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
             String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
