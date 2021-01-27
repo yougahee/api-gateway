@@ -1,17 +1,21 @@
 package com.gaga.apigateway.error;
 
+import com.gaga.apigateway.dto.Message;
+import com.gaga.apigateway.utils.JWTUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
+@RequiredArgsConstructor
 public class CustomErrorController implements ErrorController {
     private static final String ERROR_PATH = "/error";
-
-    @GetMapping("/")
-    public String getState() {
-        return "API Gateway IS RUNNING";
-    }
 
     @Override
     public String getErrorPath() {

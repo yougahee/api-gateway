@@ -48,26 +48,21 @@ public class PreFilter extends ZuulFilter {
 
         if(authorizationHeader == null) return null;
 
-        String message = jwtUtils.validateToken(authorizationHeader);
-        log.info("message : " + message);
+        jwtUtils.validateToken(authorizationHeader);
 
-        if(message != null) {
-            JsonObject response = new JsonObject();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            response.addProperty("timestamp", LocalDateTime.now().format(formatter));
-            response.addProperty("message", message);
-            response.addProperty("path", request.getRequestURI());
+        String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
+        String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
+        ctx.addZuulRequestHeader("x-forward-email", email);
+        ctx.addZuulRequestHeader("x-forward-nickname", nickname);
 
+        /*if(message != null) {
             ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-            ctx.getResponse().setContentType("application/json;charset=UTF-8");
-            ctx.setResponseBody(response.toString());
         } else {
             String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
             String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
             ctx.addZuulRequestHeader("x-forward-email", email);
             ctx.addZuulRequestHeader("x-forward-nickname", nickname);
-        }
+        }*/
 
         return null;
     }

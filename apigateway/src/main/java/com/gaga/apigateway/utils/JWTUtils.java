@@ -4,11 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.gaga.apigateway.exception.NotTokenException;
+import com.gaga.apigateway.exception.SignatureVerificationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,7 +18,7 @@ public class JWTUtils {
     @Value("${jwt.secret.at}")
     private String KEY;
 
-    public String validateToken(String tokenHeader) {
+    public void validateToken(String tokenHeader) {
         log.info("token header : " + tokenHeader);
         try {
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(KEY)).build();
@@ -28,18 +26,17 @@ public class JWTUtils {
             log.info("Token validate");
         } catch (TokenExpiredException te) {
             log.error(te.getMessage());
-            return "토큰이 만료되었습니다.";
+            throw new TokenExpiredException("토큰이 만료되었습니다.");
         } catch (SignatureVerificationException sve) {
             log.error(sve.getMessage());
-            return "토큰이 변조되었습니다.";
+            throw new SignatureVerificationException("토큰이 변조되었습니다.");
         } catch (JWTDecodeException jde) {
             log.error(jde.getMessage());
-            return "토큰의 유형이 아닙니다.";
+            throw new JWTDecodeException("토큰의 유형이 아닙니다.");
         } catch (Exception e) {
             log.error(e.getMessage());
-            return "이 토큰이 맞아요?";
+            throw new NotTokenException("이 토큰이 맞아요?");
         }
-        return null;
     }
 
     public String decodeTokenToEmail(String token) {

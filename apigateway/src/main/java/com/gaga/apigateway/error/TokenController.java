@@ -1,18 +1,19 @@
 package com.gaga.apigateway.error;
 
-import com.gaga.apigateway.dto.Message;
 import com.gaga.apigateway.utils.JWTUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.netflix.zuul.web.ZuulController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
+@Slf4j
 @RestController
-public class TokenController {
-
+@RequiredArgsConstructor
+public class TokenController extends ZuulController {
 	private final JWTUtils jwtUtils;
 
 	@GetMapping("/")
@@ -21,13 +22,13 @@ public class TokenController {
 	}
 
 	@GetMapping("/check/token")
-	public ResponseEntity<Message> checkToken(@RequestHeader(value = "token") String token) {
+	public ResponseEntity<Void> checkToken(@RequestHeader(value = "token") String token) {
+		log.info("token 유효성 파악");
 
-		String message = jwtUtils.validateToken(token);
+		jwtUtils.validateToken(token);
 
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				.body(new Message(message));
+				.build();
 	}
-
 }
