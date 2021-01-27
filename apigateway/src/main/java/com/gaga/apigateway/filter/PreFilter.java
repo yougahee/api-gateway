@@ -61,7 +61,7 @@ public class PreFilter extends ZuulFilter {
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
             ctx.getResponse().setContentType("application/json;charset=UTF-8");
-            ctx.setResponseBody(message);
+            ctx.setResponseBody(response.toString());
         } else {
             String email = jwtUtils.decodeTokenToEmail(authorizationHeader);
             String nickname = jwtUtils.decodeTokenToNickName(authorizationHeader);
