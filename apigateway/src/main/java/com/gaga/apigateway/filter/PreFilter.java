@@ -49,7 +49,6 @@ public class PreFilter extends ZuulFilter {
         if(authorizationHeader == null) return null;
 
         if(jwtUtils.checkToken(authorizationHeader)) {
-
             UserDTO userDTO = jwtUtils.decodeJWT(authorizationHeader);
             ctx.addZuulRequestHeader("x-forward-email", userDTO.getEmail());
             ctx.addZuulRequestHeader("x-forward-nickname", userDTO.getNickname());
@@ -58,7 +57,7 @@ public class PreFilter extends ZuulFilter {
             JsonObject response = new JsonObject();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             response.addProperty("timestamp", LocalDateTime.now().format(formatter));
-            response.addProperty("status", 400);
+            response.addProperty("status", 401);
             response.addProperty("message", "token Error");
             response.addProperty("path", request.getRequestURI());
 
