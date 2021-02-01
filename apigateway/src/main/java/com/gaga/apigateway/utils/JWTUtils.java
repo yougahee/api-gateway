@@ -67,7 +67,7 @@ public class JWTUtils {
         DecodedJWT jwt = JWT.decode(token);
         userDTO.setEmail(jwt.getSubject());
         userDTO.setNickname(jwt.getClaim(CLAIM_NICKNAME).asString());
-        userDTO.setUserIdx(jwt.getClaim(USER_IDX).asString());
+        userDTO.setUserIdx(jwt.getClaim(USER_IDX).asLong().toString());
         return userDTO;
     }
 
