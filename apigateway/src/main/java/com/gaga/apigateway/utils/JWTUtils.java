@@ -30,7 +30,6 @@ public class JWTUtils {
     @PostConstruct
     protected void init(){
         jwtVerifier = JWT.require(Algorithm.HMAC256(KEY)).build();
-        //KEY = Base64.getEncoder().encodeToString(KEY.getBytes());
     }
 
     public boolean checkToken(String tokenHeader) {
