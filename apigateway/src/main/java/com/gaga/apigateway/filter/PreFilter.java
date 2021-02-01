@@ -46,6 +46,14 @@ public class PreFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         String authorizationHeader = request.getHeader("token");
+        log.info(String.format("\n" +
+                        "[request] %s \n " +
+                        "URL %s \n",
+                request.getMethod(),
+                request.getRequestURL().toString()
+        ));
+        log.info("authorizationHeader의 값 : " + authorizationHeader);
+
         if(authorizationHeader == null) return null;
 
         if(jwtUtils.checkToken(authorizationHeader)) {
@@ -54,6 +62,7 @@ public class PreFilter extends ZuulFilter {
             ctx.addZuulRequestHeader("x-forward-nickname", userDTO.getNickname());
             ctx.addZuulRequestHeader("x-forward-userIdx", userDTO.getUserIdx());
         } else {
+
             JsonObject response = new JsonObject();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             response.addProperty("timestamp", LocalDateTime.now().format(formatter));
