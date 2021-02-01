@@ -22,7 +22,7 @@ public class TokenControllerAdvice {
     public ResponseEntity<ErrorMessage> unauthorizedException(HttpServletRequest req, TokenExpiredException ue) {
         log.error(ue.getMessage(), ue);
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorMessage(ue.getMessage(), HttpStatus.UNAUTHORIZED.value(), req.getRequestURI()));
     }
 
@@ -30,7 +30,7 @@ public class TokenControllerAdvice {
     public ResponseEntity<ErrorMessage> signatureVerificationException(HttpServletRequest req, SignatureVerificationException sve) {
         log.error(sve.getMessage(), sve);
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorMessage(sve.getMessage(), HttpStatus.UNAUTHORIZED.value(), req.getRequestURI()));
     }
 
@@ -38,7 +38,7 @@ public class TokenControllerAdvice {
     public ResponseEntity<ErrorMessage> JWTDecodeException(HttpServletRequest req, JWTDecodeException de) {
         log.error(de.getMessage(), de);
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorMessage(de.getMessage(), HttpStatus.UNAUTHORIZED.value(), req.getRequestURI()));
     }
 
@@ -46,7 +46,7 @@ public class TokenControllerAdvice {
     public ResponseEntity<ErrorMessage> notTokenException(HttpServletRequest req, NotTokenException nte) {
         log.error(nte.getMessage(), nte);
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorMessage(nte.getMessage(), HttpStatus.UNAUTHORIZED.value(), req.getRequestURI()));
     }
 
