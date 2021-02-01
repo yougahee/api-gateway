@@ -126,5 +126,5 @@ dependencies {
 
 :pushpin: 참고문서/출처
 1. https://netflixtechblog.com/announcing-zuul-edge-service-in-the-cloud-ab3af5be08ee
-
+2. https://github.com/Netflix/zuul
 
