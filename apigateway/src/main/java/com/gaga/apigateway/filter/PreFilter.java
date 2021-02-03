@@ -7,12 +7,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -40,6 +43,7 @@ public class PreFilter extends ZuulFilter {
         return true;
     }
 
+    @SneakyThrows
     @Override
     public Object run() {
         log.info("=====Pre Filter Start=====");
@@ -59,10 +63,10 @@ public class PreFilter extends ZuulFilter {
         if(jwtUtils.checkToken(authorizationHeader)) {
             UserDTO userDTO = jwtUtils.decodeJWT(authorizationHeader);
             ctx.addZuulRequestHeader("x-forward-email", userDTO.getEmail());
-            ctx.addZuulRequestHeader("x-forward-nickname", userDTO.getNickname());
+            ctx.addZuulRequestHeader("x-forward-nickname", URLEncoder.encode(userDTO.getNickname(), StandardCharsets.UTF_8));
             ctx.addZuulRequestHeader("x-forward-userIdx", userDTO.getUserIdx());
+            log.info("nickname : " + userDTO.getNickname());
         } else {
-
             JsonObject response = new JsonObject();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             response.addProperty("timestamp", LocalDateTime.now().format(formatter));

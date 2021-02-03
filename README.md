@@ -68,6 +68,19 @@ request header의 로그를 찍어보았는데 "x-forward-useridx"라고 적혀�
 사실 문제는 header에 있지 않았다. token에 useridx값을 long으로 집어넣었는데 decode할 때는 string으로 빼내고 있었던 것! long으로 바꿔주니 바로 해결되었다.       
 ++ userIdx, useridx 라고 적어도 값은 정상적으로 잘 들어가고 빼낼 수 있다.
 
+<br>
+
+2. API Gateway에서 ZuulException 이 떴다. 
+	- 상황 : Auth의 회원가입 시, 이메일 인증코드 확인까지 완료한 후, 또 요청을 했을 경우 "이미 인증했던 이력이 있습니다" 이런 식에 메세지가 가도록 처리해놓았다.    
+	이 메세지를 모낸 것은 오류? 느낌은 아니었고 굳이 귀찮은 일을 2번 할 필요가 없다는 메세지로 보내기 위함이었다.    
+	그래서 StatusCode를 100번 HTTP.Continue로 줬다.
+	Auth에서는 잘 넘어가는데, API Gateway에서 Error Filter로 넘어가서 에러를 내뱉었다.
+	- 이유가 뭘까??
+		- ㅇ
+
+
+3. HTTP header에 닉네임을 넣고 싶다!
+- 한글은 깨져서 보내지는 문제
 </br>
 </br>
 </br>

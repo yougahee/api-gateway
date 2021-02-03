@@ -38,16 +38,14 @@ public class ErrorFilter extends ZuulFilter {
         log.error("Exception was thrown in filters: ", throwable);
 
         final RequestContext ctx = RequestContext.getCurrentContext();
-        final HttpServletRequest request = ctx.getRequest();
-        log.info("error status code : " + ctx.getResponseStatusCode());
+        log.info("request Path : " + ctx.getRequest().getPathInfo() + "\n error status code : " + ctx.getResponseStatusCode());
 
         if(ctx.getResponseStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-            log.info("error : 여기여기여기");
             /*ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
             ctx.getResponse().setContentType("application/json;charset=UTF-8");
             ctx.setResponseBody(new ErrorMessage(throwable.toString(), request.getRequestURI()).toString());*/
-            ZuulException zuulException = new ZuulException(throwable.toString(), HttpStatus.BAD_REQUEST.value(), "token오류");
+            ZuulException zuulException = new ZuulException(throwable.toString(), HttpStatus.BAD_REQUEST.value(), throwable.getMessage());
             throw new ZuulRuntimeException(zuulException);
         }
 
