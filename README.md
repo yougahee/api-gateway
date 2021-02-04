@@ -72,15 +72,19 @@ request header의 로그를 찍어보았는데 "x-forward-useridx"라고 적혀�
 
 2. API Gateway에서 ZuulException 이 떴다. 
 	- 상황 : Auth의 회원가입 시, 이메일 인증코드 확인까지 완료한 후, 또 요청을 했을 경우 "이미 인증했던 이력이 있습니다" 이런 식에 메세지가 가도록 처리해놓았다.    
-	이 메세지를 모낸 것은 오류? 느낌은 아니었고 굳이 귀찮은 일을 2번 할 필요가 없다는 메세지로 보내기 위함이었다.    
+	이 메세지를 보낸 것은 오류? 느낌은 아니었고 굳이 귀찮은 일을 2번 할 필요가 없다는 메세지로 보내기 위함이었다.    
 	그래서 StatusCode를 100번 HTTP.Continue로 줬다.
 	Auth에서는 잘 넘어가는데, API Gateway에서 Error Filter로 넘어가서 에러를 내뱉었다.
 	- 이유가 뭘까??
-		- ㅇ
 
+<br>
 
 3. HTTP header에 닉네임을 넣고 싶다!
-- 한글은 깨져서 보내지는 문제
+	- HTTP header 표준에는 ISO-8859-1 character를 제외한 다른 charset을 지원하지 않는다. 
+	- (HTTP) messages cannot carry characters outside the ISO-8859-1 character set.
+		- https://tools.ietf.org/html/rfc5987
+	- HTTP header에 ISO-8859-1 character를 제외한 다른 문자를 넣기 위해서는 인코딩/디코딩 과정을 거쳐야한다.
+	
 </br>
 </br>
 </br>

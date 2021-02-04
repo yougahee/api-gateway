@@ -27,7 +27,7 @@ public class RouteFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        log.info("=====Route Filter Start=====");
+        log.info("\n=====Route Filter Start=====\n");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
 

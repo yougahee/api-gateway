@@ -29,8 +29,7 @@ public class PostFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        log.debug("Post Filter");
-        log.info("======POST Filter=======");
+        log.info("\n======POST Filter=======\n");
 
         return null;
     }
