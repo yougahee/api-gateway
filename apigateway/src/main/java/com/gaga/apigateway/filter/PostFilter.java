@@ -1,13 +1,8 @@
 package com.gaga.apigateway.filter;
 
-import com.gaga.apigateway.dto.ErrorMessage;
 import com.netflix.zuul.ZuulFilter;
-import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Component
