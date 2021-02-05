@@ -69,8 +69,4 @@ public class JWTUtils {
         userDTO.setUserIdx(jwt.getClaim(USER_IDX).asLong().toString());
         return userDTO;
     }
-
-    public String decodeTokenToEmail(String token) {
-        return JWT.decode(token).getSubject();
-    }
 }

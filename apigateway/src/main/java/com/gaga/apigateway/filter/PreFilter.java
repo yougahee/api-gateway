@@ -46,7 +46,7 @@ public class PreFilter extends ZuulFilter {
     @SneakyThrows
     @Override
     public Object run() {
-        log.info("=====Pre Filter Start=====");
+        log.info("\n=====PreFilter Start=====\n");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         String authorizationHeader = request.getHeader("token");
@@ -56,7 +56,6 @@ public class PreFilter extends ZuulFilter {
                 request.getMethod(),
                 request.getRequestURL().toString()
         ));
-        log.info("authorizationHeader의 값 : " + authorizationHeader);
 
         if(authorizationHeader == null) return null;
 
@@ -65,7 +64,6 @@ public class PreFilter extends ZuulFilter {
             ctx.addZuulRequestHeader("x-forward-email", userDTO.getEmail());
             ctx.addZuulRequestHeader("x-forward-nickname", URLEncoder.encode(userDTO.getNickname(), StandardCharsets.UTF_8));
             ctx.addZuulRequestHeader("x-forward-userIdx", userDTO.getUserIdx());
-            log.info("nickname : " + userDTO.getNickname());
         } else {
             JsonObject response = new JsonObject();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
