@@ -62,11 +62,13 @@ API Gateway에서는 Authentication, Monitoring, load balancing, security 등의
 
 ## :pushpin: 개발하면서 겪은 일 
 1. token에 담겨있는 정보들을 헤더에 추가하면서 "x-forward-userIdx"라고 명명해놓은 아이에 null값이 들어갔다.      
-request header의 로그를 찍어보았는데 "x-forward-useridx"라고 적혀서 들어가졌다.      
-어라? 난 분명 userIdx라고 적었는데 왜 useridx라고 적혀있지?해서 찾아보았더니 HTTP 헤더는 *대소문자를 구분하지 않는다*고 한다.     
-그래서 userIdx -> useridx라고 적고 테스트를 해보았다. 하지만, 여전히 null값!!       
-사실 문제는 header에 있지 않았다. token에 useridx값을 long으로 집어넣었는데 decode할 때는 string으로 빼내고 있었던 것! long으로 바꿔주니 바로 해결되었다.       
-++ userIdx, useridx 라고 적어도 값은 정상적으로 잘 들어가고 빼낼 수 있다.
+	- Request header 로그를 찍어보았는데 "x-forward-useridx"라고 적혀있다.
+	- 어라? 난 분명 userIdx라고 적었는데 왜 useridx라고 적혀있지?해서 찾아보았더니 HTTP 헤더는 *대소문자를 구분하지 않는다*고 한다.    
+	그래서 userIdx -> useridx라고 적고 테스트를 해보았다. 
+	하지만, 여전히 null값!!       
+	- 사실 문제는 header에 있지 않았다. 
+		- token에 useridx값을 long으로 집어넣었는데 decode할 때는 string으로 빼내고 있었던 것! long으로 바꿔주니 바로 해결되었다.
+	- ++ userIdx, useridx 라고 적어도 값은 정상적으로 잘 들어가고 빼낼 수 있다.
 
 <br>
 
