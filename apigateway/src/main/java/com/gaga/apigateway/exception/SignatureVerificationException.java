@@ -1,7 +1,5 @@
 package com.gaga.apigateway.exception;
 
-import java.security.SignatureException;
-
 public class SignatureVerificationException extends RuntimeException {
     static final long serialVersionUID = 1L;
 
