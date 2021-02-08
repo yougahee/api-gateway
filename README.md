@@ -119,7 +119,7 @@ API Gateway에서는 Authentication, Monitoring, load balancing, security 등의
 </br>
 
 # :pushpin: sonarqube
-<img src = >
+<img src = https://github.com/yougahee/api-gateway/blob/master/img/api-gateway-sonarqube.PNG>
 
 
 # :pushpin: dependencies
